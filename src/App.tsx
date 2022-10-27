@@ -14,7 +14,7 @@ export type Message = {
 
 function App() {
   // const [data, setData] = React.useState<Data>();
-  const [message, setMmessage] = React.useState();
+  const [message, setMessage] = React.useState();
   const [lengths, setLengths] = React.useState();
   const [number, setNumber] = React.useState();
   const [texts, setTexts] = useState<Message[]>([]);
@@ -69,20 +69,20 @@ function App() {
 
   //messageを受け取る
   const handleChangemessage = (e: any) => {
-    setMmessage(e.target.value);
+    setMessage(e.target.value);
     console.log(message);
   };
 
-  //messageを受け取る
+  //lengthsを受け取る
   const handleChangelength = (e: any) => {
     setLengths(e.target.value);
-    console.log(message);
+    console.log(lengths);
   };
 
-  //messageを受け取る
+  //numberを受け取る
   const handleChangenumber = (e: any) => {
     setNumber(e.target.value);
-    console.log(message);
+    console.log(number);
   };
 
   return (
@@ -90,15 +90,17 @@ function App() {
       <h2 className="text-2xl my-6">文字自動生成くん</h2>
       {data ? (
         <div>
-          <h2 className="text-2xl my-2">データ一覧</h2>
+          <h2 className="text-xl my-2">データ一覧</h2>
           <p>{data.message}</p>
         </div>
       ) : (
         <></>
       )}
       <br></br>
-      <p>文字を入れてみてね</p>
-      <p>AIが適当な文章を生成します</p>
+      <p>
+        文字自動生成くんは、APIでモデルの推論機能を使って、AIが文章を生成してくれます
+      </p>
+      <p className="">文字を入れてみてね</p>
       <br></br>
       <label className="block mb-2 text-sm font-medium text-gray-900 ">
         文章
