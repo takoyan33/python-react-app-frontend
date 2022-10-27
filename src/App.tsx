@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { useQuery, useMutation } from "react-query";
 
 export type Data = {
   Hello: string;
@@ -12,7 +13,7 @@ export type Message = {
 };
 
 function App() {
-  const [data, setData] = React.useState<Data>();
+  // const [data, setData] = React.useState<Data>();
   const [message, setMmessage] = React.useState();
   const [lengths, setLengths] = React.useState();
   const [number, setNumber] = React.useState();
@@ -20,6 +21,12 @@ function App() {
   const [loading, setLoading] = useState(false);
 
   const url = "http://127.0.0.1:8000";
+
+  const { isLoading, isError, data } = useQuery("pythonデータ", () =>
+    fetch(url).then((res) => res.json())
+  );
+  if (isLoading) return <>Loading...</>;
+  if (isError) return <>Error</>;
 
   //データ取得
   // const GetData = () => {
@@ -83,13 +90,10 @@ function App() {
       <h2 className="text-2xl my-6">文字自動生成くん</h2>
       {data ? (
         <div>
-          <h2 className="text-2xl my-2">テスト結果</h2>
+          <h2 className="text-2xl my-2">データ一覧</h2>
           <p>{data.message}</p>
         </div>
       ) : (
-        // <button onClick={GetData} className="">
-        //   データを取得
-        // </button>
         <></>
       )}
       <br></br>
