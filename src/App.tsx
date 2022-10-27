@@ -17,25 +17,30 @@ function App() {
   const [lengths, setLengths] = React.useState();
   const [number, setNumber] = React.useState();
   const [texts, setTexts] = useState<Message[]>([]);
+  const [loading, setLoading] = useState(false);
 
   const url = "http://127.0.0.1:8000";
 
   //データ取得
-  const GetData = () => {
-    axios
-      .get(url)
-      .then((res) => {
-        setData(res.data);
-        console.log(res.data);
-      })
-      .catch(function (error) {
-        alert("失敗しました");
-        console.log(error);
-      });
-  };
+  // const GetData = () => {
+  //   axios
+  //     .get(url)
+  //     .then((res) => {
+  //       setData(res.data);
+  //       console.log(res.data);
+  //     })
+  //     .catch(function (error) {
+  //       alert("失敗しました");
+  //       console.log(error);
+  //     });
+  // };
 
   //データ送信
   const generatedata = () => {
+    // 処理中(true)なら非同期処理せずに抜ける
+    if (loading) return;
+    setLoading(true);
+    // 処理中フラグを上げる
     axios
       .post(url + "/msg", {
         message: message,
@@ -46,6 +51,7 @@ function App() {
         alert("結果が出たよ！");
         setTexts(res.data.message);
         console.log(res.data.message);
+        setLoading(false);
         // console.log(texts?.message);
       })
       .catch(function (error) {
@@ -74,7 +80,7 @@ function App() {
 
   return (
     <div className="max-w-5xl m-auto">
-      <h2 className="text-2xl my-6">文字を自動生成くん</h2>
+      <h2 className="text-2xl my-6">文字自動生成くん</h2>
       {data ? (
         <div>
           <h2 className="text-2xl my-2">テスト結果</h2>
@@ -120,9 +126,13 @@ function App() {
       <input
         onClick={generatedata}
         type="submit"
-        className="shadow-lg bg-teal-500 shadow-teal-500/50 text-white rounded px-2 py-1 m-2 text-center"
+        value="送信する"
+        className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
       />
-      <p className="text-2xl my-6">出力結果</p>
+      <br></br>
+      {loading && <p className="my-6">出力中・・・</p>}
+      <br></br>
+      {texts && <p className="text-2xl my-6">出力結果</p>}
       {texts &&
         texts.map((text: any, index: any) => (
           <>
